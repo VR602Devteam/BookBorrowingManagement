@@ -70,7 +70,7 @@
     <Compile Include="EntitiyModels\Book.cs" />
     <Compile Include="EntitiyModels\Student.cs" />
     <Compile Include="EntitiyModels\Teacher.cs" />
-    <Compile Include="ExportData\ExportExcel.cs" />
+    <Compile Include="ExportData\ExportBorrowingData.cs" />
     <Compile Include="ExportData\Borrowing.cs" />
     <Compile Include="ExportData\VM\TeacherBorrowing.cs" />
     <Compile Include="ExportData\VM\StudentBorrowing.cs" />

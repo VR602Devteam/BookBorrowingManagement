@@ -7,10 +7,29 @@ namespace ExportBookBorrowingData
     // 借还日期约束处理
     public class DateConstraint
     {
-        List<string> _Offdays;
+        static List<string> _Offdays;
+        //随机生成某时间段日期
+        public static DateTime RandomDate(DateTime startTime, DateTime endTime)
+        {
+            var Range = (startTime - endTime).Days;
+            var randomDay = new Random().Next(1, Range);
+            DateTime dateTime = new DateTime();
+            dateTime = startTime.AddDays(randomDay);
+            if (!IsValidDate(dateTime))
+            {
+                while (IsValidDate(dateTime))
+                {
+                    Range = (dateTime - endTime).Days;
+                    randomDay = new Random().Next(1, Range);
+                    dateTime = startTime.AddDays(randomDay);
+                }
+                return dateTime;
+            }
+            return dateTime;
+        }
 
         // 判断借还日期是否合理
-        public bool IsValidDate(DateTime date)
+        public static bool IsValidDate(DateTime date)
         {
             int year = date.Year;
             int month = date.Month;
@@ -23,14 +42,14 @@ namespace ExportBookBorrowingData
         }
 
         // 年、月约束
-        private bool MonthValid(int year, int month, int day)
+        private static bool MonthValid(int year, int month, int day)
         {
             if (year == 2018 && month != 12 || year == 2018 && month == 12 && day < 17 || year == 2019 && month == 2 || year == 2019 && month == 7 || year == 2019 && month == 8 || year == 2019 && month == 9 && day < 9 || year == 2019 && month == 10 && day < 8) return false;
             return true;
         }
 
         // 添加无规则休息日
-        private void AddOffDays()
+        private static void AddOffDays()
         {
             _Offdays = new List<string>();
             _Offdays.Add("2018-12-31");

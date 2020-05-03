@@ -15,6 +15,9 @@ namespace ExportBookBorrowingData
         public Form1()
         {
             InitializeComponent();
+
+            ExportBorrowingData exportBorrowingData = new ExportBorrowingData();
+            exportBorrowingData.ExprotStudentBorrowingData();
         }
     }
 }

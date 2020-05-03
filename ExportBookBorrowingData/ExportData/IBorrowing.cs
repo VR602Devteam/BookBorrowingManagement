@@ -9,7 +9,8 @@ namespace ExportBookBorrowingData.ExportData.VM
 {
     public interface IBorrowing
     {
-        public int SerialNumber { get; set; }
+        public int Id { get; set; }
+        public string SerialNumber { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
         public string SeriesTitle { get; set; }
@@ -25,8 +26,8 @@ namespace ExportBookBorrowingData.ExportData.VM
         public string BorrowDate { get; set; }
         public string ReturnDate { get; set; }
         public string BorrowBookDay { get; set; }
-        public bool IsOverdue { get; set; }
-        public bool IsDiscard { get; set; }
+        public string IsOverdue { get; set; }
+        public string IsDiscard { get; set; }
         public string BorrowDay { get; set; }
         public double CompensationAmount { get; set; }
         public string Remarks { get; set; }

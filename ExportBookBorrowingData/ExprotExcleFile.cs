@@ -16,13 +16,13 @@ namespace ExportBookBorrowingData
         /// <param name="dt">数据源</param>
         /// <param name="TitleName">标题名</param>
         /// <returns></returns>
-        public bool ExportFile(string path, DataTable dt, string TitleName)
+        public static bool ExportFile(string path, DataTable dt, string TitleName,string SheetName)
         {
             FileStream fs = null;
             try
             {
                 IWorkbook workbook = new XSSFWorkbook();
-                ISheet sheet = workbook.CreateSheet("Sheet0");
+                ISheet sheet = workbook.CreateSheet(SheetName);
 
                 int rowCount = dt.Rows.Count;
                 int columnCount = dt.Columns.Count;
@@ -46,7 +46,7 @@ namespace ExportBookBorrowingData
         }
 
         // 设置标题
-        private void SetTitle(IWorkbook workbook, ISheet sheet, IRow row, ICell cell, int columnCount, string titleName)
+        private static void SetTitle(IWorkbook workbook, ISheet sheet, IRow row, ICell cell, int columnCount, string titleName)
         {
             try
             {
@@ -69,11 +69,11 @@ namespace ExportBookBorrowingData
                 cell.CellStyle = style;
                 cell.SetCellValue(titleName);
             }
-            catch (Exception ex) { }
+            catch (Exception ex) { throw ex; }
         }
 
         // 设置列头
-        private void SetCellTitle(DataTable dt, IWorkbook workbook, ISheet sheet, IRow row, ICell cell, int columnCount)
+        private static void SetCellTitle(DataTable dt, IWorkbook workbook, ISheet sheet, IRow row, ICell cell, int columnCount)
         {
             try
             {
@@ -99,11 +99,11 @@ namespace ExportBookBorrowingData
                     cell.CellStyle = style;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) { throw ex; }
         }
 
         // 设置每行每列
-        private void SetRowsAndCells(DataTable dt, IWorkbook workbook, ISheet sheet, IRow row, ICell cell, int rowCount, int columnCount)
+        private static void SetRowsAndCells(DataTable dt, IWorkbook workbook, ISheet sheet, IRow row, ICell cell, int rowCount, int columnCount)
         {
             try
             {
@@ -119,23 +119,23 @@ namespace ExportBookBorrowingData
                 style.BorderLeft = BorderStyle.Thin;
                 style.BorderRight = BorderStyle.Thin;
 
-                for (int i = 2; i < rowCount; i++)
+                for (int i = 0; i < rowCount; i++)
                 {
-                    row = sheet.CreateRow(i);
+                    row = sheet.CreateRow(i+2);
                     row.Height = 420;
                     for (int j = 0; j < columnCount; j++)
                     {
                         cell = row.CreateCell(j);
-                        cell.SetCellValue(dt.Rows[i - 1][j].ToString());
+                        cell.SetCellValue(dt.Rows[i][j].ToString());
                         cell.CellStyle = style;
                     }
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) { throw ex; }
         }
 
         // 导出
-        private bool WritingExcel(string path, IWorkbook workbook, FileStream fs)
+        private static bool WritingExcel(string path, IWorkbook workbook, FileStream fs)
         {
             try
             {
