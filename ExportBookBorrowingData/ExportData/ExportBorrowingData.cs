@@ -81,7 +81,8 @@ namespace ExportBookBorrowingData
                 StudentBorrowings.Add(studentBorrowing);
             }
             var dt = ListToDataTable(StudentBorrowings);
-            ExportExcelFile.ExportFile(@"D:\学生图书借阅登记表.xlsx", dt, "柳州市第二职业技术学校学生图书借阅登记表", "学生图书借阅登记表");
+            var path = System.IO.Directory.GetCurrentDirectory();
+            ExportExcelFile.ExportFile($"{path}\\学生图书借阅登记表.xlsx", dt, "柳州市第二职业技术学校学生图书借阅登记表", "学生图书借阅登记表");
         }
 
         public void ExprotTeacherBorrowing()
