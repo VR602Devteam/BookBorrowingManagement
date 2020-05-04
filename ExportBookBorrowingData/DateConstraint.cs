@@ -11,7 +11,7 @@ namespace ExportBookBorrowingData
         //随机生成某时间段日期
         public static DateTime RandomDate(DateTime startTime, DateTime endTime)
         {
-            var Range = (startTime - endTime).Days;
+            var Range = (endTime - startTime).Days;
             var randomDay = new Random().Next(1, Range);
             DateTime dateTime = new DateTime();
             dateTime = startTime.AddDays(randomDay);

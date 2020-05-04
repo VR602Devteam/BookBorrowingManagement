@@ -53,3 +53,4 @@ E:\BookBorrowingManagement\ExportBookBorrowingData\obj\Debug\ExportBookBorrowing
 E:\BookBorrowingManagement\ExportBookBorrowingData\obj\Debug\ExportBookBorrowingData.csproj.CopyComplete
 E:\BookBorrowingManagement\ExportBookBorrowingData\obj\Debug\ExportBookBorrowingData.exe
 E:\BookBorrowingManagement\ExportBookBorrowingData\obj\Debug\ExportBookBorrowingData.pdb
+D:\BookBorrowingManagement\ExportBookBorrowingData\obj\Debug\ExportBookBorrowingData.Form1.resources

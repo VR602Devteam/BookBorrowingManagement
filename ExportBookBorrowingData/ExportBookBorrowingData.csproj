@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateConstraint.cs" />
+    <Compile Include="DB.cs" />
     <Compile Include="EntitiyModels\Book.cs" />
     <Compile Include="EntitiyModels\Student.cs" />
     <Compile Include="EntitiyModels\Teacher.cs" />
