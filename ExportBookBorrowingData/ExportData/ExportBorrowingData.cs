@@ -120,7 +120,7 @@ namespace ExportBookBorrowingData
             var teachers = Teachers;
             var random = new Random();
 
-            for (var i = 0; i < count*100; i++)
+            for (var i = 0; i < count * 100; i++)
             {
                 var day = random.Next(leftday, rightday);
                 var teacherRange = GetRandomNumber(leftRange, rightRange, 2);
@@ -135,7 +135,7 @@ namespace ExportBookBorrowingData
                     BookId = book.Id,
                     Author = book.Author,
                     Category = book.Category,
-                    Department= teacher.Department,
+                    Department = teacher.Department,
                     Name = teacher.Name,
                     ISBN = book.ISBN,
                     Price = book.Price,
@@ -246,6 +246,17 @@ namespace ExportBookBorrowingData
             return dt;
         }
 
+        public string GenerateSerialNum(DateTime date)
+        {
+
+            Random rd = new Random();
+            var range = DateTime.Now.Ticks % 2 == 0 ? rd.Next(9, 12).ToString("00") : rd.Next(15, 18).ToString("00");
+            for (int i = 0; i < 2; i++)
+            {
+                range += rd.Next(0, 61).ToString("00");
+            }
+            return date.ToString("yyyyMMdd") + range;
+        }
     }
 
 }
