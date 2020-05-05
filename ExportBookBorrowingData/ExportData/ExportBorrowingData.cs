@@ -76,36 +76,33 @@ namespace ExportBookBorrowingData
                     Title = book.Title,
                     SeriesTitle = book.SeriesTitle,
                     Remarks = "",
+
                 };
+                studentBorrowing.IsDiscard = "否";//是否丢失
+                studentBorrowing.IsOverdue = "否";//是否逾期
 
-                if (random.NextDouble() < 0.4)
+
+
+                var BorrowDate = DateConstraint.RandomDate(DateTime.Parse("2018-12-28"), DateTime.Parse("2019-12-31"));
+                studentBorrowing.SerialNumber = GenerateSerialNum(BorrowDate);
+                //var str = studentBorrowing.SerialNumber.ToString("yyyy-MM-dd hh:mm:ss");
+
+                studentBorrowing.BorrowDate = BorrowDate.ToString("yyyy-MM-dd");
+
+
+                var returndate = BorrowDate.AddDays(day);
+                if (!DateConstraint.IsValidDate(returndate))
                 {
-                    var BorrowDate = DateConstraint.RandomDate(DateTime.Parse("2018-12-28"), DateTime.Parse("2019-12-31"));
-                    var returndate = BorrowDate.AddDays(day);
-                    studentBorrowing.IsDiscard = "否";//是否丢失
-                    studentBorrowing.IsOverdue = "否";//是否逾期
-                    studentBorrowing.BorrowBookDay = day + "";
-                    studentBorrowing.BorrowDate = BorrowDate.ToString("yyyy-MM-dd");
-
-                    if (!DateConstraint.IsValidDate(returndate))
+                    while (!DateConstraint.IsValidDate(returndate))
                     {
-                        while (!DateConstraint.IsValidDate(returndate))
-                        {
-                            returndate = returndate.AddDays(2);
-                        }
+                        day = random.Next(leftday, rightday);
+                        returndate = returndate.AddDays(day);
                     }
-                    studentBorrowing.ReturnDate = returndate.ToString("yyyy-MM-dd");
+                }
+                studentBorrowing.BorrowBookDay = day + "天";
+                studentBorrowing.ReturnDate = returndate.ToString("yyyy-MM-dd");
 
-                }
-                else
-                {
-                    var BorrowDate = DateConstraint.RandomDate(DateTime.Parse("2018-12-28"), DateTime.Parse("2019-12-31"));
-                    var returndate = BorrowDate.AddDays(day);
-                    studentBorrowing.IsDiscard = "否";//是否丢失
-                    studentBorrowing.IsOverdue = "是";//是否逾期
-                    studentBorrowing.BorrowBookDay = day + "";
-                    studentBorrowing.BorrowDate = BorrowDate.ToString("yyyy-MM-dd");
-                }
+
                 StudentBorrowings.Add(studentBorrowing);
 
             }
@@ -146,34 +143,25 @@ namespace ExportBookBorrowingData
                     Remarks = "",
                 };
 
-                if (random.NextDouble() < 0.4)
-                {
-                    var BorrowDate = DateConstraint.RandomDate(DateTime.Parse("2018-12-28"), DateTime.Parse("2019-12-31"));
-                    var returndate = BorrowDate.AddDays(day);
-                    teachersBorrowing.IsDiscard = "否";//是否丢失
-                    teachersBorrowing.IsOverdue = "否";//是否逾期
-                    teachersBorrowing.BorrowBookDay = day + "";
-                    teachersBorrowing.BorrowDate = BorrowDate.ToString("yyyy-MM-dd");
 
-                    if (!DateConstraint.IsValidDate(returndate))
+                var BorrowDate = DateConstraint.RandomDate(DateTime.Parse("2018-12-28"), DateTime.Parse("2019-12-31"));
+
+                teachersBorrowing.SerialNumber = GenerateSerialNum(BorrowDate);
+                teachersBorrowing.IsDiscard = "否";//是否丢失
+                teachersBorrowing.IsOverdue = "否";//是否逾期
+
+                teachersBorrowing.BorrowDate = BorrowDate.ToString("yyyy-MM-dd");
+                var returndate = BorrowDate.AddDays(day);
+                if (!DateConstraint.IsValidDate(returndate))
+                {
+                    while (!DateConstraint.IsValidDate(returndate))
                     {
-                        while (!DateConstraint.IsValidDate(returndate))
-                        {
-                            returndate = returndate.AddDays(2);
-                        }
+                        day = random.Next(leftday, rightday);
+                        returndate = returndate.AddDays(day);
                     }
-                    teachersBorrowing.ReturnDate = returndate.ToString("yyyy-MM-dd");
-
                 }
-                else
-                {
-                    var BorrowDate = DateConstraint.RandomDate(DateTime.Parse("2018-12-28"), DateTime.Parse("2019-12-31"));
-                    var returndate = BorrowDate.AddDays(day);
-                    teachersBorrowing.IsDiscard = "否";//是否丢失
-                    teachersBorrowing.IsOverdue = "是";//是否逾期
-                    teachersBorrowing.BorrowBookDay = day + "";
-                    teachersBorrowing.BorrowDate = BorrowDate.ToString("yyyy-MM-dd");
-                }
+                teachersBorrowing.BorrowBookDay = day + "天";
+                teachersBorrowing.ReturnDate = returndate.ToString("yyyy-MM-dd");
                 TeacherBorrowings.Add(teachersBorrowing);
 
             }
@@ -225,7 +213,7 @@ namespace ExportBookBorrowingData
             }
             dt.Columns["Id"].SetOrdinal(0);
             dt.Columns["Id"].ColumnName = "序号";
-            dt.Columns["SerialNumber"].ColumnName = "结束流水号";
+            dt.Columns["SerialNumber"].ColumnName = "借书流水号";
             dt.Columns["Name"].ColumnName = "借阅人";
             dt.Columns["BookId"].ColumnName = "图书条码";
             dt.Columns["Title"].ColumnName = "图书名称";
@@ -256,6 +244,19 @@ namespace ExportBookBorrowingData
                 range += rd.Next(0, 61).ToString("00");
             }
             return date.ToString("yyyyMMdd") + range;
+        }
+
+        public DateTime GenerateSerialNumDate(DateTime date)
+        {
+
+            Random rd = new Random();
+            var range = DateTime.Now.Ticks % 2 == 0 ? rd.Next(9, 12).ToString("00") : rd.Next(15, 18).ToString("00");
+            date.AddHours(Convert.ToDouble(range));
+            range = rd.Next(0, 61).ToString("00");
+            date.AddMinutes(Convert.ToDouble(range));
+            range = rd.Next(0, 61).ToString("00");
+            date.AddSeconds(Convert.ToDouble(range));
+            return date;
         }
     }
 
