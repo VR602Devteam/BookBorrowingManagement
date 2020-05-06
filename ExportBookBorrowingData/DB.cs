@@ -12,6 +12,7 @@ namespace ExportBookBorrowingData
     public class DB
     {
         private readonly string str = @"Data Source=.;Initial Catalog=Librarydb;Integrated Security=SSPI; ";
+        //private readonly string str = @"Data Source=.;Initial Catalog=Librarydb;uid=sa;pwd=123456";
         private SqlConnection con;
         
         public DB()

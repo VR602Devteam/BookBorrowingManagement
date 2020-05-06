@@ -43,9 +43,18 @@ namespace ExportBookBorrowingData
         {
             try
             {
-                if (int.Parse(stu_text_stratDay.Text) >= int.Parse(stu_text_endDay.Text) || int.Parse(stu_text_stratDay.Text) <= 0 || int.Parse(stu_text_endDay.Text) > 100) MessageBox.Show("借还天数必须是小于关系且大于0", "提示", MessageBoxButtons.OK);
-                else if (int.Parse(stu_text_startBetween.Text) > int.Parse(stu_text_endBetween.Text) || int.Parse(stu_text_startBetween.Text) <= 0) MessageBox.Show("抽取范围必须是小于关系且大于0", "提示", MessageBoxButtons.OK);
-                else if (int.Parse(stu_text_records.Text) < 10) MessageBox.Show("记录条数必须大于10", "提示", MessageBoxButtons.OK);
+                if (int.Parse(stu_text_stratDay.Text) >= int.Parse(stu_text_endDay.Text) || int.Parse(stu_text_stratDay.Text) <= 0 || int.Parse(stu_text_endDay.Text) > 100)
+                {
+                    MessageBox.Show("借还天数必须是小于关系且大于0", "提示", MessageBoxButtons.OK);
+                }
+                else if (int.Parse(stu_text_startBetween.Text) > int.Parse(stu_text_endBetween.Text) || int.Parse(stu_text_startBetween.Text) <= 0)
+                {
+                    MessageBox.Show("抽取范围必须是小于关系且大于0", "提示", MessageBoxButtons.OK);
+                }
+                else if (int.Parse(stu_text_records.Text) < 10)
+                {
+                    MessageBox.Show("记录条数必须大于10", "提示", MessageBoxButtons.OK);
+                }
                 else
                 {
                     var count = int.Parse(stu_text_records.Text);
@@ -67,9 +76,18 @@ namespace ExportBookBorrowingData
         {
             try
             {
-                if (int.Parse(teacher_text_startDay.Text) >= int.Parse(teacher_text_endDay.Text) || int.Parse(teacher_text_startDay.Text) <= 0 || int.Parse(teacher_text_endDay.Text) > 100) MessageBox.Show("借还天数必须是小于关系且大于0", "提示", MessageBoxButtons.OK);
-                else if (int.Parse(teacher_text_startBetween.Text) > int.Parse(teacher_text_endBetween.Text) || int.Parse(teacher_text_startBetween.Text) <= 0) MessageBox.Show("抽取范围必须是小于关系且大于0", "提示", MessageBoxButtons.OK);
-                else if (int.Parse(teacher_text_repeatTimes.Text) <= 0) MessageBox.Show("重复次数必须大于0", "提示", MessageBoxButtons.OK);
+                if (int.Parse(teacher_text_startDay.Text) >= int.Parse(teacher_text_endDay.Text) || int.Parse(teacher_text_startDay.Text) <= 0 || int.Parse(teacher_text_endDay.Text) > 100)
+                {
+                    MessageBox.Show("借还天数必须是小于关系且大于0", "提示", MessageBoxButtons.OK);
+                }
+                else if (int.Parse(teacher_text_startBetween.Text) > int.Parse(teacher_text_endBetween.Text) || int.Parse(teacher_text_startBetween.Text) <= 0)
+                {
+                    MessageBox.Show("抽取范围必须是小于关系且大于0", "提示", MessageBoxButtons.OK);
+                }
+                else if (int.Parse(teacher_text_repeatTimes.Text) <= 0)
+                {
+                    MessageBox.Show("重复次数必须大于0", "提示", MessageBoxButtons.OK);
+                }
                 else
                 {
                     var count = int.Parse(teacher_text_repeatTimes.Text);

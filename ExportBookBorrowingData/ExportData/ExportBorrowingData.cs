@@ -46,7 +46,7 @@ namespace ExportBookBorrowingData
 
 
 
-        public void ExprotStudentBorrowingData(int count, int leftday, int rightday, float leftRange, float rightRange)
+        /*public void ExprotStudentBorrowingData(int count, int leftday, int rightday, float leftRange, float rightRange)
         {
             var books = NoBorrowingBooks;
             var students = Students;
@@ -110,8 +110,138 @@ namespace ExportBookBorrowingData
             dt.Columns["Class"].ColumnName = "班级班级（专业-年级-班）";
             var path = System.IO.Directory.GetCurrentDirectory();
             ExportExcelFile.ExportFile($"{path}\\学生图书借阅登记表.xlsx", dt, "柳州市第二职业技术学校学生图书借阅登记表", "学生图书借阅登记表");
+        }*/
+
+        public void ExprotStudentBorrowingData(int count, int leftday, int rightday, float leftRange, float rightRange)
+        {
+            var books = NoBorrowingBooks;
+            var students = Students;
+            var random = new Random();
+            var student = new Student();
+            // 确认范围人数
+            var peopleNum = random.Next(Convert.ToInt32(students.Count * leftRange), Convert.ToInt32(students.Count * rightRange));
+            count = count < peopleNum ? peopleNum : count;
+            for (int i = 0; i < (count / peopleNum) + 1; i++)
+            {
+                for (int j = 1; j <= peopleNum; j++)
+                {
+                    student = students[random.Next(students.Count)];
+                    var day = random.Next(leftday, rightday);
+                    var book = books[random.Next(0, books.Count)];
+                    books.Remove(book);
+                    var studentBorrowing = new StudentBorrowing
+                    {
+                        Id = j+1,
+                        SerialNumber = "",
+                        BookId = book.Id,
+                        Author = book.Author,
+                        Category = book.Category,
+                        Class = student.Class,
+                        Name = student.Name,
+                        ISBN = book.ISBN,
+                        Price = book.Price,
+                        Version = book.Version,
+                        PublishYear = book.PublishYear,
+                        Title = book.Title,
+                        SeriesTitle = book.SeriesTitle,
+                        Remarks = "",
+
+                    };
+                    studentBorrowing.IsDiscard = "否";//是否丢失
+                    studentBorrowing.IsOverdue = "否";//是否逾期
+
+                    var BorrowDate = DateConstraint.RandomDate(DateTime.Parse("2018-12-28"), DateTime.Parse("2019-12-31"));
+                    studentBorrowing.SerialNumber = GenerateSerialNum(BorrowDate);
+                    //var str = studentBorrowing.SerialNumber.ToString("yyyy-MM-dd hh:mm:ss");
+
+                    studentBorrowing.BorrowDate = BorrowDate.ToString("yyyy-MM-dd");
+
+
+                    var returndate = BorrowDate.AddDays(day);
+                    if (!DateConstraint.IsValidDate(returndate))
+                    {
+                        while (!DateConstraint.IsValidDate(returndate))
+                        {
+                            day = random.Next(leftday, rightday);
+                            returndate = returndate.AddDays(day);
+                        }
+                    }
+                    studentBorrowing.BorrowBookDay = day + "天";
+                    studentBorrowing.ReturnDate = returndate.ToString("yyyy-MM-dd");
+
+
+                    StudentBorrowings.Add(studentBorrowing);
+                }
+            }
+            var dt = ListToDataTable(StudentBorrowings);
+            dt.Columns["Class"].ColumnName = "班级班级（专业-年级-班）";
+            var path = System.IO.Directory.GetCurrentDirectory();
+            ExportExcelFile.ExportFile($"{path}\\学生图书借阅登记表.xlsx", dt, "柳州市第二职业技术学校学生图书借阅登记表", "学生图书借阅登记表");
         }
+
         public void ExprotTeacherBorrowing(int count, int leftday, int rightday, float leftRange, float rightRange)
+        {
+            var books = NoBorrowingBooks;
+            var teachers = Teachers;
+            var random = new Random();
+
+            for (int k = 0; k < count; k++)
+            {
+                var peopleNum = random.Next(Convert.ToInt32(teachers.Count * leftRange), Convert.ToInt32(teachers.Count * rightRange));
+
+                for (int j = 1; j <= peopleNum; j++)
+                {
+                    var day = random.Next(leftday, rightday);
+                    var teacher = teachers[random.Next(teachers.Count)];
+                    var book = books[random.Next(0, books.Count)];
+                    books.Remove(book);
+                    var teachersBorrowing = new TeacherBorrowing
+                    {
+                        Id = j+1,
+                        SerialNumber = "",
+                        BookId = book.Id,
+                        Author = book.Author,
+                        Category = book.Category,
+                        Department = teacher.Department,
+                        Name = teacher.Name,
+                        ISBN = book.ISBN,
+                        Price = book.Price,
+                        Version = book.Version,
+                        PublishYear = book.PublishYear,
+                        Title = book.Title,
+                        SeriesTitle = book.SeriesTitle,
+                        Remarks = "",
+                    };
+
+
+                    var BorrowDate = DateConstraint.RandomDate(DateTime.Parse("2018-12-28"), DateTime.Parse("2019-12-31"));
+
+                    teachersBorrowing.SerialNumber = GenerateSerialNum(BorrowDate);
+                    teachersBorrowing.IsDiscard = "否";//是否丢失
+                    teachersBorrowing.IsOverdue = "否";//是否逾期
+
+                    teachersBorrowing.BorrowDate = BorrowDate.ToString("yyyy-MM-dd");
+                    var returndate = BorrowDate.AddDays(day);
+                    if (!DateConstraint.IsValidDate(returndate))
+                    {
+                        while (!DateConstraint.IsValidDate(returndate))
+                        {
+                            day = random.Next(leftday, rightday);
+                            returndate = returndate.AddDays(day);
+                        }
+                    }
+                    teachersBorrowing.BorrowBookDay = day + "天";
+                    teachersBorrowing.ReturnDate = returndate.ToString("yyyy-MM-dd");
+                    TeacherBorrowings.Add(teachersBorrowing);
+                }
+            }
+            var dt = ListToDataTable(TeacherBorrowings);
+            dt.Columns["Department"].ColumnName = "部门";
+            var path = System.IO.Directory.GetCurrentDirectory();
+            ExportExcelFile.ExportFile($"{path}\\教师图书借阅登记表.xlsx", dt, "柳州市第二职业技术学校教师图书借阅登记表", "教师图书借阅登记表");
+        }
+
+        /*public void ExprotTeacherBorrowing(int count, int leftday, int rightday, float leftRange, float rightRange)
         {
             var books = NoBorrowingBooks;
             var teachers = Teachers;
@@ -169,12 +299,7 @@ namespace ExportBookBorrowingData
             dt.Columns["Department"].ColumnName = "部门";
             var path = System.IO.Directory.GetCurrentDirectory();
             ExportExcelFile.ExportFile($"{path}\\教师图书借阅登记表.xlsx", dt, "柳州市第二职业技术学校学生图书借阅登记表", "教师图书借阅登记表");
-        }
-        private void ExportExcelData()
-        {
-
-        }
-
+        }*/
 
 
         public double GetRandomNumber(double minimum, double maximum, int Len)   //Len小数点保留位数
@@ -182,6 +307,7 @@ namespace ExportBookBorrowingData
             Random random = new Random();
             return Math.Round(random.NextDouble() * (maximum - minimum) + minimum, Len);
         }
+
         public static DataTable ListToDataTable<T>(List<T> list)
         {
             if (list == null || list.Count == 0)
@@ -259,5 +385,4 @@ namespace ExportBookBorrowingData
             return date;
         }
     }
-
 }
